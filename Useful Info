@@ -1,0 +1,7 @@
+This is my flask MySQL project i made while learning  flask.
+Its a simple search engine to search for food recipies.
+It does everything involved in CRUD.
+However there are some issues: (Major Issue)Users can edit other users recipies
+                               (Major Issue)The "read more" button on results tends to misbehave in multiple results
+                               (Minor Issue)Does not have user profile pictures.
+I have tried many solutions but none seems to work so if you can fix the issues please show me how its done.
