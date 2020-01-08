@@ -1,0 +1,37 @@
+{% extends "base.html"%}
+{% block content %}
+<div class="container">
+    <center>
+      {% for mess in get_flashed_messages() %}
+        {% if mess %}
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+              {{mess}} 
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+              </button>
+           </div>
+        {% endif %}
+      {% endfor %}
+
+
+<h1>My recipies <i class="fas fa-utensils"></i></h1>
+<hr>
+<div class="card" style="width: 18rem;">
+{% for recipie in recipies %}
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">
+        <a  href="/single_recipie/{{recipie.id}}">{{recipie.title}}</a><br>
+
+        <a class="btn btn-success" href="/edit_recipie/{{recipie.id}}">Edit</a>
+        <a class="btn btn-danger" href="/delete_recipie/{{recipie.id}}">Delete</a>
+
+    </li>
+  </ul>
+{% endfor %}
+</div>
+</center>
+
+
+</div>
+
+{% endblock %}

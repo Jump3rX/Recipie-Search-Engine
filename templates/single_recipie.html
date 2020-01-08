@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h2><u>{{recipie.title|safe}}</u></h2>
+    <small>Written by <i>{{recipie.author|safe}}</i> on <i>{{recipie.time_created}}</i></small><br><br>
+    <h3> <u> Ingredients</u></h3>
+    <p>{{recipie.ingredients|safe}}</p>
+    <h3> <u> Cooking steps</u></h3>
+    <p>{{recipie.steps|safe}}</p>
+</div>
+{% endblock %}

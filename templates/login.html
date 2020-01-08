@@ -1,0 +1,36 @@
+{% extends "base.html"%}
+{% block content %}
+<title>Login</title>
+<div class="container">
+  <center><h2>Log In</h2>
+    {% for mess in get_flashed_messages() %}
+    {% if mess %}
+      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          {{mess}} 
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+          </button>
+       </div>
+    {% endif %}
+  {% endfor %}
+  
+  </center>
+<form method="POST" autocomplete="off">
+   
+    <div class="form-group">
+        <label for="exampleInputEmail1">Email:</label>
+        <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" required>
+    </div>
+
+      <div class="form-group">
+        <label for="exampleInputPassword1">Password:</label>
+        <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password" required>
+      </div>
+
+      <input type="submit" value="Log In">
+
+</form>
+
+</div>
+
+{% endblock%}

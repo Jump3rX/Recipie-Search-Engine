@@ -1,0 +1,200 @@
+body{
+   margin: 0;
+   height: 100%;
+   background-color: rgb(255,255,255);
+   background-image: url('/static/food-on-table-326278.jpg');
+   background-blend-mode: darken;
+   background-repeat: no-repeat;
+   background-size: cover;
+}
+
+input [type=submit]{
+    color: white;
+    background-color: yellow;
+    border-radius: 40%;
+    width: 40px;
+}
+
+input [type=text]{
+    width: 150px;
+}
+nav{
+    background-color: transparent;
+}
+
+.logo2{
+    float: left;
+    display: inline-flex;
+    padding: 0.5%;
+
+}
+
+.logo1 img {
+    display: block;
+    margin-left: 33%;
+    padding-top: auto;
+    padding-bottom: auto;
+    width: 30%;
+    background: transparent;
+}
+form{
+    outline: transparent;
+}
+
+.logo2 img{
+   width: 30%;
+   height: 20%;
+}
+
+.nav-btn{
+    display: inline-block;
+}
+
+.nav-btn a {
+    text-decoration: none;
+    float: right;
+    padding: 10px;
+    margin: 10px;
+    color: white;
+    background-color: rgb(255,204,0);
+    border-radius: 12px;
+    font-size: 100%;
+}
+
+form{
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    margin-top: auto;
+}
+
+
+form input[type=submit]{
+    padding: 10px;
+    color: white;
+    background-color: rgb(255,204,0);
+    border-radius: 12px;
+    font-size: 100%;
+    width: 30%;
+    border: none;  
+}
+
+
+form input [type=submit] :hover{
+    text-transform: uppercase;
+    transition: all 0.2s ease-in-out;
+    color: rgba(255, 255, 255, 1);
+    box-shadow: 0 20px 30px rgba(255, 204, 0, 0.842);
+}
+
+
+form input[type=email]{
+    outline: none;
+}
+
+form input[type=password]{
+    
+    outline: none;
+}
+
+button i{
+    font-size: 30px;
+}
+
+form button :hover{
+    
+    transform: rotate(720deg);
+    -moz-transition: rotate(720deg);
+    transition: 1s;
+
+
+    transform: scale(2) rotate(720deg);
+    -webkit-transition: rotate(720deg);
+    transition: 2s;
+
+}
+
+
+li{
+    display: inline-block;
+    text-decoration: none;
+    color: rgb(255,204,0);
+    vertical-align: middle;
+    margin-bottom: -385px;
+}
+
+.copy{
+    color: rgb(255,204,0);
+    font-family: fantasy;
+}
+
+.footer{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  color: rgb(255,204,0);
+  background-color: white;
+  text-align: center;
+}
+.footer button{
+    color: rgb(255,204,0);
+}
+.index{
+    padding-top: 120px;
+}
+
+.icon-bar {
+    position: fixed;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+
+  }
+
+  .icon-bar a {
+    display: block;
+    text-align: center;
+    padding: 16px;
+    transition: all 0.3s ease;
+    color: white;
+    font-size: 25px;
+  }
+
+  #facebook {
+    background: #3B5998;
+    color: white;
+  }
+  
+  #twitter {
+    background: #55ACEE;
+    color: white;
+  }
+  .user_photo{
+      width: 200px;
+      height: 200px;
+  }
+  label,small,h2,h1,h3,p{
+      color: white;
+      font-style: bold;
+  }
+
+
+@media screen and (max-width: 1060px) {
+
+    #primary { width:67%; }
+
+    #secondary { width:30%; margin-left:3%;}  
+
+}
+
+/* Tabled Portrait */
+
+@media screen and (max-width: 768px) {
+
+    #primary { width:100%; }
+
+    #secondary { width:100%; margin:0; border:none; }
+
+}

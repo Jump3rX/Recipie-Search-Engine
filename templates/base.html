@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge chrome=1">
+    <meta name="Handheldfriendly" content="true">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+    <!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"-->
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+</head>
+<body>
+    <nav class="navbar">
+        <a class="navbar-brand" href="/">
+          <img src="{{url_for('static',filename='elogo2.png')}}" width="30" height="50" alt="logo">
+        </a>
+        <div class="nav-btn">
+            {% if session.logged_in %}
+            <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            <a href="/add_recipie"><i class="fas fa-plus"></i> Add Recipie</a>
+            <a href="/profile"><i class="far fa-user"></i> Profile</a>
+            <a href="/my_recipies"><i class="fas fa-utensils"></i> My Recipies</a>
+            <a href="/"><i class="fas fa-home"></i> Home</a>
+            
+            {% else %}
+            <a href="/register"><i class="fas fa-user-plus"></i> Register</a>
+            <a href="/login"><i class="fas fa-sign-in-alt"></i> Login</a>
+            <a href="/"><i class="fas fa-home"></i> Home</a>
+            {% endif %}
+        </div>
+        </a>
+      </nav>
+    {% block content%}
+
+
+    {% endblock %}
+    <!-- Footer -->
+    <div class="icon-bar">
+        <a href="#" id="facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" id="twitter"><i class="fab fa-twitter"></i></a>
+      </div>
+     
+</body>
+</html>

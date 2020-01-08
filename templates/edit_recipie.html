@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <center><h2>Edit Recipie</h2>
+        {% for mess in get_flashed_messages() %}
+        {% if mess %}
+    
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{mess}} 
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+    
+    
+        {% endif %}
+    {% endfor %}
+    </center>
+<form action="" method="POST">
+    <div class="form-group">
+        <label for="exampleFormControlInput1">Recipie Title</label>
+        <input type="text" name="title" class="form-control" id="exampleFormControlInput1" value="{{e_recipie.title}}">
+    </div>
+
+    <div class="form-group">
+        <label for="exampleFormControlTextarea1">Ingredients</label>
+        <textarea class="form-control" name="ingredients" id="exampleFormControlTextarea1" rows="3">{{e_recipie.ingredients}}</textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="exampleFormControlTextarea1">Cooking Steps</label>
+        <textarea  class="form-control" name="steps" id="exampleFormControlTextarea1" rows="3">{{e_recipie.steps}}</textarea>
+    </div><br>
+    <input type="submit" value="Update">
+</form>
+
+</div>
+
+{% endblock %}
