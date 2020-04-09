@@ -2,37 +2,19 @@
 {% block content %}
 {% for i in results %}
 <div class="container">
-        <div class="card" style="width: 18rem;">
-                                <!--img class="card-img-top" src="..." alt="Card image cap"-->
-                <div class="card-body">
-                        <h4 class="card-title">{{ i.title}}</h4>
-                        
-                        <h5 class="card-title">Ingredients</h5>
-                        <div class="collapse" id="collapseExample">
-                                        
-                                               {{ i.ingredients}} <br> <br>
-                                       </div>
-
-                        <p class="card-text">
-                                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                                        Read more...
-                                </button>
-                        </p>
-
-                        <h5 class="card-title">Cooking Steps</h5>
-                        <div class="collapse multi-collapse" id="multiCollapseExample2">
-                                        
-                                          {{i.steps}} <br> <br>
-                                      </div>
-                        <p class="card-text">
-                                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">
-                                                Read more...
-                                        </button>
-                        </p>   
+        <div class="row">
+                <div class="col">
+                        <div class="card" style="width: 18rem;">
+                                <img class="card-img-top" src="{{url_for('static',filename=i.image)}}" alt="Card image cap">
+                                <div class="card-body">
+                                        <h4 href="/single_recipie/{{i.id}}" class="card-title">{{ i.title}}</h4>
+                                        <a href="/single_recipie/{{i.id}}" class="btn btn-primary">Read recipie</a>
+                                </div>
+                        </div>           
                 </div>
         </div>
-                        
 </div>
+
 
 {% else %}      
         <center>
