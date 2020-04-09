@@ -2,7 +2,7 @@ from flask import Flask,request,render_template,url_for,redirect,session,flash
 from flask_mysqldb import MySQL
 from passlib.hash import sha256_crypt
 from functools import wraps
-import time
+import time,os
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'mykey'
@@ -12,6 +12,9 @@ app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'erecipies'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 mysql =  MySQL(app)
+
+APP_ROOT = os.path.dirname(os.path.abspath(__file__))
+target = os.path.join(APP_ROOT,'static/')
 
 """*********************Index page and search handler*******************************"""
 @app.route('/',methods=['GET','POST'])# Home page
@@ -39,16 +42,19 @@ def login_required(f):
     return wrap
 """******************************************************"""
 
-"""*********************Add recipie aand user registration handlers*************************"""
+"""*********************Add recipie and user registration handlers*************************"""
 @app.route('/add_recipie',methods=['GET','POST']) #Add recipies page
 @login_required
 def add_recipie():
     if request.method == "POST":
         title = request.form['title']
-        ingredients = request.form['ingredients']
         steps = request.form['steps']
+        food_img = request.files['food-img']
+        img_name = food_img.filename
+        destination = '/'.join([target,img_name])
+        food_img.save(destination)
         cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO recipies(title,ingredients,steps,author) VALUES(%s,%s,%s,%s)",(title,ingredients,steps,session['email']))
+        cur.execute("INSERT INTO recipies(title,steps,image,author) VALUES(%s,%s,%s,%s)",(title,steps,img_name,session['email']))
         mysql.connection.commit()
         cur.close()
         flash('Recipie Added!!')
@@ -62,6 +68,18 @@ def register():
         email = request.form['email']
         username = request.form['username']
         password = sha256_crypt.encrypt(str(request.form['password']))
+        existing_name = cur.execute("SELECT * FROM users WHERE name = %s",[name])
+        existing_email = cur.execute("SELECT * FROM users WHERE email = %s",[email])
+        existing_username = cur.execute("SELECT * FROM users WHERE username = %s",[username])
+        if existing_name > 0:
+            flash("This name already regsitered!Please choose another",category='info')
+            return render_template('register.html')
+        if existing_email > 0:
+            flash("This Email is already registered!")
+            return render_template('register.html')
+        if existing_username > 0:
+            flash("This username used is already registered!")
+            return render_template('register.html')
         cur = mysql.connection.cursor()
         cur.execute("INSERT INTO users(name,email,username,password) VALUES(%s,%s,%s,%s)",(name,email,username,password))
         mysql.connection.commit()
@@ -132,7 +150,6 @@ def my_recipies():
     return render_template('my_recipies.html',recipies=recipies)
 
 @app.route('/single_recipie/<string:id>/')
-@login_required
 def single_recipie(id):
     cur = mysql.connection.cursor()
     cur.execute("SELECT * FROM recipies WHERE id = %s",[id])
@@ -188,9 +205,13 @@ def edit_profile(id):
         name = request.form['name']
         username = request.form['username']
         email = request.form['email']
+        profile_pic = request.files['profile_pic']
+        img_name = profile_pic.filename
+        destination = '/'.join([target,img_name])
+        profile_pic.save(destination)
 
         cur = mysql.connection.cursor()
-        cur.execute("UPDATE users SET name = %s, email = %s, username = %s WHERE id = %s",(name,email,username,id))
+        cur.execute("UPDATE users SET name = %s, email = %s, username = %s, profile_pic = %s WHERE id = %s",(name,email,username,img_name,id))
         mysql.connection.commit()
         cur.close()
         flash('Profile Updated succesfully!!')
