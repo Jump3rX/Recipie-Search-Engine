@@ -22,7 +22,7 @@ def index():
     cur = mysql.connection.cursor()
     if request.method == "POST":
         food = request.form['food']
-        cur.execute("SELECT title,ingredients,steps FROM recipies WHERE MATCH(title,ingredients,steps) AGAINST(%s)",[food])
+        cur.execute("SELECT * FROM recipies WHERE MATCH(title,steps) AGAINST(%s)",[food])
         results = cur.fetchall()
         cur.close()
         return render_template('results.html',results=results)
@@ -42,17 +42,20 @@ def login_required(f):
     return wrap
 """******************************************************"""
 
-"""*********************Add recipie and user registration handlers*************************"""
-@app.route('/add_recipie',methods=['GET','POST']) #Add recipies page
+"""*********************Add recipie aand user registration handlers*************************"""
+@app.route('/add_recipie',methods=['GET','POST']) 
 @login_required
 def add_recipie():
     if request.method == "POST":
+        
         title = request.form['title']
         steps = request.form['steps']
+
         food_img = request.files['food-img']
         img_name = food_img.filename
         destination = '/'.join([target,img_name])
         food_img.save(destination)
+
         cur = mysql.connection.cursor()
         cur.execute("INSERT INTO recipies(title,steps,image,author) VALUES(%s,%s,%s,%s)",(title,steps,img_name,session['email']))
         mysql.connection.commit()
@@ -64,10 +67,12 @@ def add_recipie():
 @app.route('/register',methods=['GET','POST'])# User register page
 def register():
     if request.method == "POST":
+        cur = mysql.connection.cursor()
         name = request.form['name']
         email = request.form['email']
         username = request.form['username']
         password = sha256_crypt.encrypt(str(request.form['password']))
+
         existing_name = cur.execute("SELECT * FROM users WHERE name = %s",[name])
         existing_email = cur.execute("SELECT * FROM users WHERE email = %s",[email])
         existing_username = cur.execute("SELECT * FROM users WHERE username = %s",[username])
@@ -80,7 +85,7 @@ def register():
         if existing_username > 0:
             flash("This username used is already registered!")
             return render_template('register.html')
-        cur = mysql.connection.cursor()
+
         cur.execute("INSERT INTO users(name,email,username,password) VALUES(%s,%s,%s,%s)",(name,email,username,password))
         mysql.connection.commit()
         cur.close()
@@ -100,6 +105,7 @@ def login():
         if result > 0:
             data = cur.fetchone()
             db_password = data['password']
+            usr_name = data['username']
 
             if sha256_crypt.verify(password_entered,db_password):
                 session['logged_in'] = True
@@ -144,12 +150,13 @@ def profile():
 @login_required
 def my_recipies():
     cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM recipies")
+    cur.execute("SELECT * FROM recipies WHERE author = %s",[session['email']])
     recipies = cur.fetchall()
     cur.close()
     return render_template('my_recipies.html',recipies=recipies)
 
 @app.route('/single_recipie/<string:id>/')
+
 def single_recipie(id):
     cur = mysql.connection.cursor()
     cur.execute("SELECT * FROM recipies WHERE id = %s",[id])
@@ -185,7 +192,7 @@ def edit_recipie(id):
 @login_required
 def delete_recipie(id):
     cur = mysql.connection.cursor()
-    cur.execute("DELETE FROM recipies WHERE id = %s",[id])
+    cur.execute("DELETE FROM recipies WHERE id = %s AND author = %s",(id,session['email']))
     mysql.connection.commit()
     cur.close()
     flash('Recipie Deleted!!')
@@ -205,13 +212,15 @@ def edit_profile(id):
         name = request.form['name']
         username = request.form['username']
         email = request.form['email']
+
         profile_pic = request.files['profile_pic']
         img_name = profile_pic.filename
         destination = '/'.join([target,img_name])
         profile_pic.save(destination)
 
+
         cur = mysql.connection.cursor()
-        cur.execute("UPDATE users SET name = %s, email = %s, username = %s, profile_pic = %s WHERE id = %s",(name,email,username,img_name,id))
+        cur.execute("UPDATE users SET name = %s, email = %s, username = %s profile_pic = %s WHERE id = %s",(name,email,username,img_name,id))
         mysql.connection.commit()
         cur.close()
         flash('Profile Updated succesfully!!')
@@ -234,4 +243,4 @@ def delete_profile(id):
 """*************************************************************************"""
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
